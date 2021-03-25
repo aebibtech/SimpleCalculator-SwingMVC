@@ -6,7 +6,7 @@
 
 /**
  *
- * @author User
+ * @author Paul Abib S. Camano
  */
 public class Operations {
     private double firstNumber;
