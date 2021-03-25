@@ -103,10 +103,6 @@ public final class SimpleCalculator extends KeyAdapter implements ActionListener
         }
     }
     
-    /**
-     * Override keyTyped() method as required by the abstract KeyAdapter class
-     * @param ke 
-     */
     @Override
     public void keyTyped(KeyEvent ke) {
         char c = ke.getKeyChar();
