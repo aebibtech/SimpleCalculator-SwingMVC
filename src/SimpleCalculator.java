@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public final class SimpleCalculator implements ActionListener {
+public final class SimpleCalculator extends KeyAdapter implements ActionListener  {
     private final MainWindow mainWindow = new MainWindow();
     
     /**
@@ -35,33 +35,9 @@ public final class SimpleCalculator implements ActionListener {
      */
     public void addKeyListeners() {
         // for firstNumberText
-        mainWindow.getFirstNumberText().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent ke) {
-                char c = ke.getKeyChar();
-                if (!( (c >= '0') && (c <= '9') ||
-                    (c == KeyEvent.VK_BACK_SPACE) ||
-                    (c == KeyEvent.VK_DELETE) ||
-                    (c == '.') ||
-                    (c == '-') ) ) {
-                    ke.consume();
-                }
-            }
-        });
+        mainWindow.getFirstNumberText().addKeyListener(this);
         // for secondNumberText
-        mainWindow.getSecondNumberText().addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyTyped(KeyEvent ke) {
-                char c = ke.getKeyChar();
-                if (!( (c >= '0') && (c <= '9') ||
-                    (c == KeyEvent.VK_BACK_SPACE) ||
-                    (c == KeyEvent.VK_DELETE) ||
-                    (c == '.') ||
-                    (c == '-') ) ) {
-                    ke.consume();
-                }
-            }
-        });
+        mainWindow.getSecondNumberText().addKeyListener(this);
     }
     
     /**
@@ -77,23 +53,15 @@ public final class SimpleCalculator implements ActionListener {
         // divideButton
         mainWindow.getDivideButton().addActionListener(this);
         // resetButton
-        mainWindow.getResetButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                mainWindow.getFirstNumberText().setText("");
-                mainWindow.getSecondNumberText().setText("");
-                mainWindow.getResultDisplay().setText("");
-            }
-            
+        mainWindow.getResetButton().addActionListener((ActionEvent e) -> {
+            mainWindow.getFirstNumberText().setText("");
+            mainWindow.getSecondNumberText().setText("");
+            mainWindow.getResultDisplay().setText("");
         });
         // quitButton
-        mainWindow.getQuitButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(mainWindow, "This will terminate the program.", "EXIT", JOptionPane.INFORMATION_MESSAGE);
-                System.exit(0);
-            }
-            
+        mainWindow.getQuitButton().addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(mainWindow, "This will terminate the program.", "EXIT", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
         });
     }
     
@@ -132,6 +100,22 @@ public final class SimpleCalculator implements ActionListener {
             }
         } catch (NumberFormatException nfe) { // if input is invalid
             mainWindow.getResultDisplay().setText("Invalid input");
+        }
+    }
+    
+    /**
+     * Override keyTyped() method as required by the abstract KeyAdapter class
+     * @param ke 
+     */
+    @Override
+    public void keyTyped(KeyEvent ke) {
+        char c = ke.getKeyChar();
+        if (!( (c >= '0') && (c <= '9') ||
+            (c == KeyEvent.VK_BACK_SPACE) ||
+            (c == KeyEvent.VK_DELETE) ||
+            (c == '.') ||
+            (c == '-') ) ) {
+            ke.consume();
         }
     }
 
